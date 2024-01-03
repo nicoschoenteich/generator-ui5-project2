@@ -10,23 +10,23 @@ export default class extends Generator {async prompting() {
     }
 
     async writing() {
-        const projectId = `${this.answers.namespaceUI5}.${this.answers.projectName}`
+        this.answers.projectId = `${this.answers.namespaceUI5}.${this.answers.projectName}`
 
         if (this.answers.newDir) {
-            this.destinationRoot(this.destinationPath(projectId))
+            this.destinationRoot(this.destinationPath(this.answers.projectId))
         }
 
         const appConfig = {
             app: {
-                id: projectId,
-                title: projectId,
-                description: `${projectId} description`
+                id: this.answers.projectId,
+                title: this.answers.projectId,
+                description: `${this.answers.projectId} description`
             },
             appOptions: {
                 loadReuseLibs: true
             },
             package: {
-                name: projectId
+                name: this.answers.projectId
             },
             ui5: {
                 ui5Theme: "sap_horizon"

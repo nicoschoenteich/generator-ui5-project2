@@ -1,0 +1,82 @@
+_schema-version: "3.2"
+ID: com.myorg.myui5app
+version: 0.0.1
+
+build-parameters:
+  before-all:
+    - builder: custom
+      commands:
+        - npm install
+
+modules:
+  - name: com.myorg.myui5app-destination-content
+    type: com.sap.application.content
+    requires:
+      - name: com.myorg.myui5app-uaa
+      - name: com.myorg.myui5app-html-repo-host
+      - name: com.myorg.myui5app-destination-service
+        parameters:
+          content-target: true
+    parameters:
+      content:
+        instance:
+          destinations:
+            - Name: com.myorg.myui5app-html-repo-host
+              ServiceInstanceName: com.myorg.myui5app-html-repo-host
+              ServiceKeyName: com.myorg.myui5app-html-repo-host-key
+              sap.cloud.service: basic.service
+            - Name: com.myorg.myui5app-uaa
+              ServiceInstanceName: com.myorg.myui5app-uaa
+              ServiceKeyName: com.myorg.myui5app-uaa-key
+              sap.cloud.service: basic.service
+              Authentication: OAuth2UserTokenExchange
+          existing_destinations_policy: update
+    build-parameters:
+      no-source: true
+  - name: com.myorg.myui5app-ui-deployer
+    type: com.sap.application.content
+    path: .
+    requires:
+      - name: com.myorg.myui5app-html-repo-host
+        parameters:
+          content-target: true
+    build-parameters:
+      build-result: resources
+      requires:
+        - artifacts:
+            - com.myorg.myui5app-content.zip
+          name: com.myorg.myui5app
+          target-path: resources/
+  - name: com.myorg.myui5app
+    type: html5
+    path: .
+    build-parameters:
+      builder: custom
+      commands:
+        - npm run build
+      supported-platforms: []
+resources:
+  - name: com.myorg.myui5app-destination-service
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: destination
+      service-name: com.myorg.myui5app-destination-service
+      service-plan: lite
+      config:
+        HTML5Runtime_enabled: true
+        version: 0.0.1
+  - name: com.myorg.myui5app-html-repo-host
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: html5-apps-repo
+      service-plan: app-host
+      service-keys: 
+        - name: com.myorg.myui5app-html-repo-host-key
+  - name: com.myorg.myui5app-uaa
+    type: org.cloudfoundry.managed-service
+    parameters:
+      path: ./xs-security.json
+      service: xsuaa
+      service-plan: application
+      service-keys: 
+        - name: com.myorg.myui5app-uaa-key

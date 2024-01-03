@@ -55,7 +55,7 @@ export default async function prompts() {
         choices: [
             "Static webserver",
             "Application Router @ Cloud Foundry",
-            "SAP HTML5 Application Repository service for SAP BTP",
+            "SAP HTML5 Application Repository Service for SAP BTP",
             "SAP Build Work Zone, standard edition",
             "Application Router @ SAP HANA XS Advanced",
             "SAP NetWeaver"
@@ -63,12 +63,20 @@ export default async function prompts() {
         default: "Static webserver"
     })).platform
 
+    this.answers.tileName = (await this.prompt({
+        type: "input",
+        name: "tileName",
+        message: "What name should be displayed on the Fiori Launchpad tile?",
+        default: `${this.answers.namespaceUI5}.${this.answers.projectName}`,
+        when: this.answers.platform === "SAP Build Work Zone, standard edition",
+    })).tileName
+
     this.answers.ui5Libs = (await this.prompt({
         type: "list",
         name: "ui5Libs",
         message: "Where should your UI5 libs be served from?",
-        choices: (props) => {
-            return props.platform !== "SAP Build Work Zone, standard edition" && !this.answers.enableFPM // limit to SAPUI5 for some use cases
+        choices: () => {
+            return this.answers.platform !== "SAP Build Work Zone, standard edition" && !this.answers.enableFPM // limit to SAPUI5 for some use cases
                 ? [
                       "Content delivery network (OpenUI5)",
                       "Content delivery network (SAPUI5)",
@@ -77,8 +85,8 @@ export default async function prompts() {
                   ]
                 : ["Content delivery network (SAPUI5)"];
         },
-        default: (props) => {
-            return props.platform !== "SAP Build Work Zone, standard edition" && !this.answers.enableFPM
+        default: () => {
+            return this.answers.platform !== "SAP Build Work Zone, standard edition" && !this.answers.enableFPM
                 ? "Content delivery network (OpenUI5)"
                 : "Content delivery network (SAPUI5)";
         }
