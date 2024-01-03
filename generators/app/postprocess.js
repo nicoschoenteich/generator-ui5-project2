@@ -91,6 +91,3 @@ export default class extends Generator {
         fs.writeFileSync(this.destinationPath("webapp/manifest.json"), JSON.stringify(manifestJSON))
     }
 }
-
-https://devrel.launchpad.cfapps.eu10.hana.ondemand.com/50d4dcda-9954-481f-98dd-cea2c8fc77d5.cloudservice.thumbnailgenerator/~281123155203+0000~/manifest.json?sap-language=EN
-https://b0095898trial.launchpad.cfapps.us10.hana.ondemand.com/1d7647cd-7af9-4775-b31c-8c838859c306.basicservice.commyorgmyui5app/~030124165534+0000~/manifest.json?sap-language=EN
