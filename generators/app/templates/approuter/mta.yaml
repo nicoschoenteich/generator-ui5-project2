@@ -1,6 +1,6 @@
 _schema-version: "3.2"
-ID: hello-world
-version: 1.0.0
+ID: <%= title %>
+version: 0.0.1
 
 build-parameters:
   before-all:

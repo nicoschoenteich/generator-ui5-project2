@@ -55,8 +55,7 @@ export default class extends Generator {async prompting() {
             { title: this.answers.projectName }
         )
 
-        this.composeWith(path.join(this.contextRoot, "generators/app/launchpad.js"), { answers: this.answers })
-        this.composeWith(path.join(this.contextRoot, "generators/app/mta.js"), { answers: this.answers })
+        this.composeWith(path.join(this.contextRoot, "generators/app/postprocess.js"), { answers: this.answers })
     }
 
 }
