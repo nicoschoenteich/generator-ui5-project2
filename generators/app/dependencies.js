@@ -3,5 +3,7 @@ export default {
     "bestzip": "latest",
     "mbt": "^1",
     "npm-run-all": "^4",
-    "rimraf": "latest"
+    "rimraf": "latest",
+    "OpenUI5": "1.120.3",
+    "SAPUI5": "1.120.3"
 }

@@ -1,20 +1,21 @@
 import dependencies from "./dependencies.js"
-import Generator from "yeoman-generator"
 import fs from "fs"
+import Generator from "yeoman-generator"
 
 export default class extends Generator {
-    async prompting() {
-
-    }
     writing() {
         const packageJson = JSON.parse(fs.readFileSync(this.destinationPath("package.json")))
         const manifestJSON = JSON.parse(fs.readFileSync(this.destinationPath("webapp/manifest.json")))
 
+        const platformIsWebserver = this.options.answers.platform === "Static webserver"
         const platformIsApprouter = this.options.answers.platform === "Application Router @ Cloud Foundry"
         const platformIsHTML5AppsRepo = this.options.answers.platform === "SAP HTML5 Application Repository Service for SAP BTP"
         const platformIsSAPBuildWorkZone = this.options.answers.platform === "SAP Build Work Zone, standard edition"
-
-        if (platformIsApprouter) {
+        
+        if (platformIsWebserver) {
+            delete packageJson.scripts["deploy"]
+            delete packageJson.scripts["deploy-config"]
+        } else if (platformIsApprouter) {
             this.fs.copyTpl(
                 this.templatePath("standalone-approuter"),
                 this.destinationRoot(),
@@ -52,8 +53,6 @@ export default class extends Generator {
             packageJson.devDependencies["bestzip"] = dependencies["bestzip"]
         }
 
-        // fix consumption selected ui5 source in index.html (based on answer)
-
         if (platformIsSAPBuildWorkZone) {
             // add launchpad navigation
             manifestJSON["sap.app"]["crossNavigation"] = {
@@ -78,7 +77,6 @@ export default class extends Generator {
             // freestyle app template includes launchpad, which we remove manually
             if (!this.options.answers.enableFPM) {
                 packageJson.scripts["start"] = "fiori run --open index.html"
-                packageJson.scripts["start-local"] = "fiori run --config ./ui5-local.yaml --open index.html"
                 delete packageJson.scripts["start-noflp"]
                 fs.writeFileSync(this.destinationPath("package.json"), JSON.stringify(packageJson))
 

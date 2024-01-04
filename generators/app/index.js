@@ -4,7 +4,8 @@ import Generator from "yeoman-generator"
 import path from "path"
 import prompts from "./prompts.js"
 
-export default class extends Generator {async prompting() {
+export default class extends Generator {
+    async prompting() {
         this.answers = {}
         await prompts.call(this)
     }
@@ -14,12 +15,18 @@ export default class extends Generator {async prompting() {
 
         if (this.answers.newDir) {
             this.destinationRoot(this.destinationPath(this.answers.projectId))
+
+            // required so that yeoman detects changes to package.json
+            // and runs install automatically if newDir === true
+            // see https://github.com/yeoman/environment/issues/309
+            // this.env.cwd = this.destinationPath()
+            // this.env.options.nodePackageManager = "npm"
         }
 
         const appConfig = {
             app: {
                 id: this.answers.projectId,
-                title: this.answers.projectId,
+                title: this.answers.tileName || this.answers.projectId,
                 description: `${this.answers.projectId} description`
             },
             appOptions: {
@@ -32,7 +39,7 @@ export default class extends Generator {async prompting() {
                 ui5Theme: "sap_horizon"
             }
         }
-    
+
         if (this.answers.enableFPM) {
             appConfig.appOptions.sapux = this.answers.enableFioriTools
             if (this.answers.enableTypescript) {
@@ -55,7 +62,9 @@ export default class extends Generator {async prompting() {
             { title: this.answers.projectName }
         )
 
-        this.composeWith(path.join(this.contextRoot, "generators/app/postprocess.js"), { answers: this.answers })
+        this.composeWith(path.join(this.contextRoot, "generators/app/platform.js"), { answers: this.answers })
+        this.composeWith(path.join(this.contextRoot, "generators/app/ui5Libs.js"), { answers: this.answers })
+        this.composeWith(path.join(this.contextRoot, "generators/app/initRepo.js"), { answers: this.answers })
     }
 
 }

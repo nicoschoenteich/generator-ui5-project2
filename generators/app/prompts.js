@@ -5,9 +5,9 @@ export default async function prompts() {
         message: "How do you want to name this project?",
         validate: (s) => {
             if (/^\d*[a-zA-Z][a-zA-Z0-9]*$/g.test(s)) {
-                return true;
+                return true
             }
-            return "Please use alpha numeric characters only for the project name.";
+            return "Please use alpha numeric characters only for the project name."
         },
         default: "myui5app"
     })).projectName
@@ -18,9 +18,9 @@ export default async function prompts() {
         message: "Which namespace do you want to use?",
         validate: (s) => {
             if (/^[a-zA-Z0-9_\.]*$/g.test(s)) {
-                return true;
+                return true
             }
-            return "Please use alpha numeric characters and dots only for the namespace.";
+            return "Please use alpha numeric characters and dots only for the namespace."
         },
         default: "com.myorg"
     })).namespaceUI5
@@ -83,12 +83,12 @@ export default async function prompts() {
                       "Local resources (OpenUI5)",
                       "Local resources (SAPUI5)"
                   ]
-                : ["Content delivery network (SAPUI5)"];
+                : ["Local resources (SAPUI5)"]
         },
         default: () => {
             return this.answers.platform !== "SAP Build Work Zone, standard edition" && !this.answers.enableFPM
                 ? "Content delivery network (OpenUI5)"
-                : "Content delivery network (SAPUI5)";
+                : "Local resources (SAPUI5)"
         }
     })).ui5Libs
 
