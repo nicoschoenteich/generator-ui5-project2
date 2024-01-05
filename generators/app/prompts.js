@@ -78,7 +78,7 @@ export default async function prompts() {
         type: "input",
         name: "tileName",
         message: "What name should be displayed on the Fiori Launchpad tile?",
-        default: `${this.answers.namespaceUI5}.${this.answers.projectName}`,
+        default: this.answers.uimoduleName,
         when: this.answers.platform === "SAP Build Work Zone, standard edition",
     })).tileName
 

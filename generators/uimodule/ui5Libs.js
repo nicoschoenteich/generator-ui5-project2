@@ -10,7 +10,7 @@ export default class extends Generator {
         const manifestJSON = JSON.parse(fs.readFileSync(this.destinationPath("webapp/manifest.json")))
 
         // fiori-tools-proxy only needed for flpSandbox.html to proxy to cdn
-        if (this.config.get("platform") === "SAP Build Work Zone, standard edition") {
+        if (this.options.config.platform === "SAP Build Work Zone, standard edition") {
             ui5Yaml.server.customMiddleware.forEach(middleware => {
                 if (middleware.name === "fiori-tools-proxy") {
                     middleware.configuration.ui5 = {
@@ -23,7 +23,7 @@ export default class extends Generator {
             ui5Yaml.server.customMiddleware = ui5Yaml.server.customMiddleware.filter(middleware => middleware.name !== "fiori-tools-proxy")
         }
 
-        switch (this.config.get("ui5Libs")) {
+        switch (this.options.config.ui5Libs) {
         case "Content delivery network (OpenUI5)":
             delete ui5Yaml.framework
             fs.writeFileSync(

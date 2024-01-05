@@ -7,35 +7,40 @@ import path from "path"
 export default class extends Generator {
     static displayName = "Create a new uimodule within an existing OpenUI5/SAPUI5 project"
 
+    prompting() {
+        // check if this is a standalone or embedded call, the latter would contain config
+        if (!this.options.config) {
+    
+        }
+    }
+
     async writing() {
         const rootPackageJson = JSON.parse(fs.readFileSync(this.destinationPath("package.json")))
-        rootPackageJson.workspaces.push(this.config.get("uimoduleName"))
+        rootPackageJson.workspaces.push(this.options.config.uimoduleName)
         fs.writeFileSync(this.destinationPath("package.json"), JSON.stringify(rootPackageJson))
 
-        // TO-DO: is standalone call?
-
-        this.destinationRoot(this.destinationPath(this.config.get("uimoduleName")))
+        this.destinationRoot(this.destinationPath(this.options.config.uimoduleName))
 
         const appConfig = {
             app: {
-                id: this.config.get("uimoduleName"),
-                title: this.config.get("tileName") || this.config.get("uimoduleName"),
-                description: `${this.config.get("uimoduleName")} description`
+                id: this.options.config.uimoduleName,
+                title: this.options.config.tileName || this.options.config.uimoduleName,
+                description: `${this.options.config.uimoduleName} description`
             },
             appOptions: {
                 loadReuseLibs: true
             },
             package: {
-                name: this.config.get("uimoduleName")
+                name: this.options.config.uimoduleName
             },
             ui5: {
                 ui5Theme: "sap_horizon"
             }
         }
 
-        if (this.config.get("enableFPM")) {
-            appConfig.appOptions.sapux = this.config.get("enableFioriTools")
-            if (this.config.get("enableTypescript")) {
+        if (this.options.config.enableFPM) {
+            appConfig.appOptions.sapux = this.options.config.enableFioriTools
+            if (this.options.config.enableTypescript) {
                 appConfig.appOptions.typescript = true
             }
             await writeFPMApp(this.destinationRoot(), appConfig, this.fs)
@@ -49,8 +54,8 @@ export default class extends Generator {
             await writeFreestyleApp(this.destinationRoot(), appConfig, this.fs)
         }
 
-        this.composeWith("./platform")
-        this.composeWith("./ui5Libs")
+        this.composeWith("./platform", { config: this.options.config })
+        this.composeWith("./ui5Libs", { config: this.options.config })
     }
 
 }

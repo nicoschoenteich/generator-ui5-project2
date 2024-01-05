@@ -8,13 +8,12 @@ export default class extends Generator {
     async prompting() {
         this.answers = {}
         await prompts.call(this)
-        this.config.set(this.answers)
     }
 
     async writing() {
-        this.config.set("projectId", `${this.config.get("namespaceUI5")}.${this.config.get("projectName")}`) // e.g. com.myorg.myui5project
-        if (this.config.get("newDir")) {
-            this.destinationRoot(this.destinationPath(this.config.get("projectId")))
+        this.answers.projectId = `${this.answers.namespaceUI5}.${this.answers.projectName}` // e.g. com.myorg.myui5project
+        if (this.answers.newDir) {
+            this.destinationRoot(this.destinationPath(this.answers.projectId))
 
             // required so that yeoman detects changes to package.json
             // and runs install automatically if newDir === true
@@ -22,6 +21,7 @@ export default class extends Generator {
             // this.env.cwd = this.destinationPath()
             // this.env.options.nodePackageManager = "npm"
         }
+        this.config.set(this.answers) // do this after changing the directory so that .yo-src.json is created in the correct place
 
         this.fs.copyTpl(
             this.templatePath("package.json"),
@@ -43,8 +43,8 @@ export default class extends Generator {
             this.destinationPath(".gitignore")
         )
 
-        this.composeWith("../uimodule/index.js")
-        this.composeWith("./platform.js")
+        this.composeWith("../uimodule/index.js", { config: this.config.getAll() })
+        this.composeWith("./platform.js", {})
     }
 
     end() {
