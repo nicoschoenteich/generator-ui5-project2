@@ -2,15 +2,16 @@ import fs from "fs"
 import { generate as writeFPMApp } from "@sap-ux/ui5-application-writer"
 import { generate as writeFreestyleApp, TemplateType } from "@sap-ux/fiori-freestyle-writer"
 import Generator from "yeoman-generator"
-import path from "path"
+import prompts from "./prompts.js"
 
 export default class extends Generator {
     static displayName = "Create a new uimodule within an existing OpenUI5/SAPUI5 project"
 
-    prompting() {
+    async prompting() {
         // check if this is a standalone or embedded call, the latter would contain config
         if (!this.options.config) {
-    
+            this.options.config = this.config.getAll()
+            await prompts.call(this)
         }
     }
 
