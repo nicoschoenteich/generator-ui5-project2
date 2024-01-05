@@ -7,6 +7,7 @@ build-parameters:
     - builder: custom
       commands:
         - npm install
+        - npm run build:workspaces
 
 modules:
 
@@ -44,20 +45,7 @@ modules:
           content-target: true
     build-parameters:
       build-result: resources
-      requires:
-        - artifacts:
-            - <%= projectId %>-content.zip
-          name: <%= projectId %>
-          target-path: resources/
-
-  - name: <%= projectId %>
-    type: html5
-    path: .
-    build-parameters:
-      builder: custom
-      commands:
-        - npm run build
-      supported-platforms: []
+      requires: []
 
 resources:
 
@@ -78,7 +66,7 @@ resources:
       service-plan: app-host
       service-keys: 
         - name: <%= projectId %>-html-repo-host-key
-        
+
   - name: <%= projectId %>-uaa
     type: org.cloudfoundry.managed-service
     parameters:

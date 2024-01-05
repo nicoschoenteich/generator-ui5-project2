@@ -1,17 +1,4 @@
 export default async function prompts() {
-    this.answers.projectName = (await this.prompt({
-        type: "input",
-        name: "projectName",
-        message: "How do you want to name this project?",
-        validate: (s) => {
-            if (/^\d*[a-zA-Z][a-zA-Z0-9]*$/g.test(s)) {
-                return true
-            }
-            return "Please use alpha numeric characters only for the project name."
-        },
-        default: "myui5app"
-    })).projectName
-
     this.answers.namespaceUI5 = (await this.prompt({
         type: "input",
         name: "namespaceUI5",
@@ -24,6 +11,32 @@ export default async function prompts() {
         },
         default: "com.myorg"
     })).namespaceUI5
+
+    this.answers.projectName = (await this.prompt({
+        type: "input",
+        name: "projectName",
+        message: "How do you want to name this project?",
+        validate: (s) => {
+            if (/^\d*[a-zA-Z][a-zA-Z0-9]*$/g.test(s)) {
+                return true
+            }
+            return "Please use alpha numeric characters only for the project name."
+        },
+        default: "myui5project"
+    })).projectName
+
+    this.answers.uimoduleName = (await this.prompt({
+        type: "input",
+        name: "uimoduleName",
+        message: "How do you want to name the first uimodule within your project?",
+        validate: (s) => {
+            if (/^\d*[a-zA-Z][a-zA-Z0-9]*$/g.test(s)) {
+                return true
+            }
+            return "Please use alpha numeric characters only for the project name."
+        },
+        default: "myui5app"
+    })).uimoduleName
 
     this.answers.enableFPM = (await this.prompt({
         type: "confirm",
@@ -56,9 +69,7 @@ export default async function prompts() {
             "Static webserver",
             "Application Router @ Cloud Foundry",
             "SAP HTML5 Application Repository Service for SAP BTP",
-            "SAP Build Work Zone, standard edition",
-            "Application Router @ SAP HANA XS Advanced",
-            "SAP NetWeaver"
+            "SAP Build Work Zone, standard edition"
         ],
         default: "Static webserver"
     })).platform

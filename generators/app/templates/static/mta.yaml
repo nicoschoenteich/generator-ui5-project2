@@ -10,9 +10,9 @@ build-parameters:
         - npm run build:workspaces
 
 modules:
-  - name: <%= projectId %>-approuter
-    type: nodejs
-    path: approuter
+  - name: <%= projectId %>
+    type: staticfile
+    path: dist
     parameters:
       disk-quota: 256M
       memory: 256M
