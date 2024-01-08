@@ -45,7 +45,9 @@ modules:
           content-target: true
     build-parameters:
       build-result: resources
-      requires: []
+      requires: [] # zipped uimodules will be added here
+
+  # uimodules will be added here
 
 resources:
 

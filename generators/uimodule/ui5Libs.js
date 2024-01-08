@@ -53,13 +53,13 @@ export default class extends Generator {
 
         fs.writeFileSync(this.destinationPath("ui5.yaml"), yaml.stringify(ui5Yaml))
         fs.unlinkSync(this.destinationPath("webapp/manifest.json")) // avoid conflict/auto-prompt by yeoman
-        fs.writeFileSync(this.destinationPath("webapp/manifest.json"), JSON.stringify(manifestJSON))
+        fs.writeFileSync(this.destinationPath("webapp/manifest.json"), JSON.stringify(manifestJSON, null, 4))
 
         // remove option to bootstrap from local UI5 sources, as UI5 source is part of user selection
         fs.unlinkSync(this.destinationPath("ui5-local.yaml"))
         const packageJson = JSON.parse(fs.readFileSync(this.destinationPath("package.json")))
         delete packageJson.scripts["start-local"]
         fs.unlinkSync(this.destinationPath("package.json")) // avoid conflict/auto-prompt by yeoman
-        fs.writeFileSync(this.destinationPath("package.json"), JSON.stringify(packageJson))
+        fs.writeFileSync(this.destinationPath("package.json"), JSON.stringify(packageJson, null, 4))
     }
 }

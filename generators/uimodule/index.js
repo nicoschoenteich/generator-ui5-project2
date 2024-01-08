@@ -1,3 +1,4 @@
+import chalk from "chalk"
 import fs from "fs"
 import { generate as writeFPMApp } from "@sap-ux/ui5-application-writer"
 import { generate as writeFreestyleApp, TemplateType } from "@sap-ux/fiori-freestyle-writer"
@@ -11,14 +12,19 @@ export default class extends Generator {
         // check if this is a standalone or embedded call, the latter would contain config
         if (!this.options.config) {
             this.options.config = this.config.getAll()
-            await prompts.call(this)
+            if (Object.keys(this.options.config).length === 0) {
+                this.log(`${chalk.blue("We couldn't find a parent UI5 project to create a uimodule for, but you can create a new one by running")} ${chalk.yellow("yo easy-ui5 project")}${chalk.blue(".")}`)
+                this.cancelCancellableTasks()
+            } else {
+                await prompts.call(this)
+            }
         }
     }
 
     async writing() {
         const rootPackageJson = JSON.parse(fs.readFileSync(this.destinationPath("package.json")))
         rootPackageJson.workspaces.push(this.options.config.uimoduleName)
-        fs.writeFileSync(this.destinationPath("package.json"), JSON.stringify(rootPackageJson))
+        fs.writeFileSync(this.destinationPath("package.json"), JSON.stringify(rootPackageJson, null, 4))
 
         this.destinationRoot(this.destinationPath(this.options.config.uimoduleName))
 
@@ -57,6 +63,7 @@ export default class extends Generator {
 
         this.composeWith("./platform", { config: this.options.config })
         this.composeWith("./ui5Libs", { config: this.options.config })
+
     }
 
 }

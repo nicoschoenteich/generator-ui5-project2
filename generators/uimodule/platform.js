@@ -16,7 +16,8 @@ export default class extends Generator {
         delete uimodulePackageJson.scripts["deploy"]
         delete uimodulePackageJson.scripts["deploy-config"]
 
-        // TO-DO: create .gitignore
+        // we do have a .gitignore at root level
+        fs.unlinkSync(this.destinationPath(".gitignore"))
 
         if (platformIsWebserver) {
             uimodulePackageJson.scripts["build"] = `ui5 build --config=ui5.yaml --clean-dest --dest ../dist/${this.options.config.uimoduleName}`
@@ -80,14 +81,14 @@ export default class extends Generator {
             if (!this.options.config.enableFPM) {
                 uimodulePackageJson.scripts["start"] = "fiori run --open index.html"
                 delete uimodulePackageJson.scripts["start-noflp"]
-                fs.writeFileSync(this.destinationPath("package.json"), JSON.stringify(uimodulePackageJson))
+                fs.writeFileSync(this.destinationPath("package.json"), JSON.stringify(uimodulePackageJson, null, 4))
 
                 fs.unlinkSync(this.destinationPath("webapp/test/flpSandbox.html"))
                 fs.unlinkSync(this.destinationPath("webapp/test/locate-reuse-libs.js"))
             }
         }
 
-        fs.writeFileSync(this.destinationPath("package.json"), JSON.stringify(uimodulePackageJson))
-        fs.writeFileSync(this.destinationPath("webapp/manifest.json"), JSON.stringify(manifestJSON))
+        fs.writeFileSync(this.destinationPath("package.json"), JSON.stringify(uimodulePackageJson, null, 4))
+        fs.writeFileSync(this.destinationPath("webapp/manifest.json"), JSON.stringify(manifestJSON, null, 4))
     }
 }

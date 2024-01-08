@@ -8,3 +8,14 @@ com.myorg.projectname
     package.json
     ui5.yaml
     webapp
+
+# Benefits of new version
+
+- centrally managed dependencies of generated apps
+- centrally managed templates
+  - open-ux-tools for uimodules
+  - this repo for monorepo architecture and deployment-related files
+- modern monorepo approach (using npm workspaces)
+- correct usage of namespace, project name and uimodule name 
+- no workarounds
+- following best practices of yeoman

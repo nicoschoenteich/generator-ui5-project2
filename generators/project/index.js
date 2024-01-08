@@ -6,6 +6,7 @@ export default class extends Generator {
     static displayName = "Create a new OpenUI5/SAPUI5 project"
 
     async prompting() {
+        
         this.answers = {}
         await prompts.call(this)
     }
@@ -47,7 +48,7 @@ export default class extends Generator {
         this.composeWith("./platform.js", {})
     }
 
-    end() {
+    async end() {
         if (this.config.get("initRepo")) {
             this.spawnSync("git", ["init", "--quiet", "-b", "main"], {
                 cwd: this.destinationPath()
