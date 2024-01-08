@@ -9,7 +9,7 @@ export default class extends Generator {
     static displayName = "Create a new uimodule within an existing OpenUI5/SAPUI5 project"
 
     async prompting() {
-        // check if this is a standalone or embedded call, the latter would contain config
+        // standalone call
         if (!this.options.config) {
             this.options.config = this.config.getAll()
             if (Object.keys(this.options.config).length === 0) {
@@ -63,7 +63,17 @@ export default class extends Generator {
 
         this.composeWith("./platform", { config: this.options.config })
         this.composeWith("./ui5Libs", { config: this.options.config })
+    }
 
+    end() {
+        this.destinationRoot(this.destinationPath("../"))
+        if (!this.config.get("uimodules")) {
+            this.config.set("uimodules", [ this.options.config.uimoduleName ])
+        } else {
+            this.config.set("uimodules", this.config.get("uimodules").concat(this.options.config.uimoduleName))
+        }
+        this.config.delete("uimoduleName")
+        this.config.delete("tileName")
     }
 
 }

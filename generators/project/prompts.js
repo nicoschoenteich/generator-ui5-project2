@@ -25,6 +25,7 @@ export default async function prompts() {
         default: "myui5project"
     })).projectName
 
+    // the project generator always runs together with the uimodule generator, so it makes sense to ask this question straight away
     this.answers.uimoduleName = (await this.prompt({
         type: "input",
         name: "uimoduleName",
