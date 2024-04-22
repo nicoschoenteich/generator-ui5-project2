@@ -1,3 +1,4 @@
+// dependencies for generated applications
 export default {
     "@sap/approuter": "^16",
     "bestzip": "latest",

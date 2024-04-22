@@ -9,7 +9,7 @@ export default class extends Generator {
     static displayName = "Create a new uimodule within an existing OpenUI5/SAPUI5 project"
 
     async prompting() {
-        // standalone call
+        // standalone call, this.options.config would get passed from ../project generator
         if (!this.options.config) {
             this.options.config = this.config.getAll()
             if (Object.keys(this.options.config).length === 0) {
@@ -22,6 +22,7 @@ export default class extends Generator {
     }
 
     async writing() {
+		// add uimodule to workspaces in package.json
         const rootPackageJson = JSON.parse(fs.readFileSync(this.destinationPath("package.json")))
         rootPackageJson.workspaces.push(this.options.config.uimoduleName)
         fs.writeFileSync(this.destinationPath("package.json"), JSON.stringify(rootPackageJson, null, 4))
@@ -44,7 +45,8 @@ export default class extends Generator {
                 ui5Theme: "sap_horizon"
             }
         }
-
+		
+		// pass appConfig to @sap-ux writers
         if (this.options.config.enableFPM) {
             appConfig.appOptions.sapux = this.options.config.enableFioriTools
             if (this.options.config.enableTypescript) {
@@ -66,6 +68,7 @@ export default class extends Generator {
     }
 
     end() {
+		// add new uimodule to .yo-rc.json
         this.destinationRoot(this.destinationPath("../"))
         if (!this.config.get("uimodules")) {
             this.config.set("uimodules", [ this.options.config.uimoduleName ])
