@@ -17,8 +17,9 @@
         "yeoman-environment": "^4.1.3",
         "yeoman-generator": "^7.1.1"
     },
-    "scripts": {
-        "start": "yo ."
-    },
+	"scripts": {
+		"project": "yo ui5-project2:project",
+		"model": "yo ui5-project2:model"
+	},
     "type": "module"
 }
