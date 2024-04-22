@@ -1,7 +1,5 @@
 export default async function prompts() {
 
-
-
     if (this.options.config.uimodules.length === 1) {
         this.options.config.uimodule = this.options.config.uimodules[0]
     } else {
@@ -34,32 +32,28 @@ export default async function prompts() {
         default: "OData v4"
     })).modelType
 
-    this.options.config.bindingMode = (await this.prompt({
-        type: "list",
-        name: "bindingMode",
-        message: "Which binding mode do you want to use?",
-        choices: ["TwoWay", "OneWay"],
-        default: "TwoWay"
-    })).bindingMode
+    // this.options.config.bindingMode = (await this.prompt({
+    //     type: "list",
+    //     name: "bindingMode",
+    //     message: "Which binding mode do you want to use?",
+    //     choices: ["TwoWay", "OneWay"],
+    //     default: "TwoWay"
+    // })).bindingMode
 
     this.options.config.modelUrl = (await this.prompt({
         type: "input",
         name: "modelUrl",
         message: "What is the data source url?",
-        when: () => {
-            return this.options.config.modelType?.includes("OData");
-        }
+        when: this.options.config.modelType?.includes("OData")
     })).modelUrl
 
-    this.options.config.countMode = (await this.prompt({
-        type: "list",
-        name: "countMode",
-        message: "Which count mode do you want to use?",
-        choices: ["Inline", "Request"],
-        default: "Inline",
-        when: () => {
-            return this.options.config.modelType === "OData v2";
-        }
-    })).countMode
+    // this.options.config.countMode = (await this.prompt({
+    //     type: "list",
+    //     name: "countMode",
+    //     message: "Which count mode do you want to use?",
+    //     choices: ["Inline", "Request"],
+    //     default: "Inline",
+    //     when: this.options.config.modelType === "OData v2"
+    // })).countMode
 
 }
