@@ -6,5 +6,6 @@ export default {
     "npm-run-all": "^4",
     "rimraf": "latest",
     "OpenUI5": "1.120.3",
-    "SAPUI5": "1.120.3"
+    "SAPUI5": "1.120.3",
+	"ui5-middleware-approuter": "^3"
 }

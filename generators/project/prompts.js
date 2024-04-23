@@ -7,7 +7,7 @@ export default async function prompts() {
             if (/^[a-zA-Z0-9_\.]*$/g.test(s)) {
                 return true
             }
-            return "Please use alpha numeric characters and dots only for the namespace."
+            return "Please use alpha numeric characters and dots only."
         },
         default: "com.myorg"
     })).namespaceUI5
@@ -20,7 +20,7 @@ export default async function prompts() {
             if (/^\d*[a-zA-Z][a-zA-Z0-9]*$/g.test(s)) {
                 return true
             }
-            return "Please use alpha numeric characters only for the project name."
+            return "Please use alpha numeric characters only."
         },
         default: "myui5project"
     })).projectName
@@ -34,7 +34,7 @@ export default async function prompts() {
             if (/^\d*[a-zA-Z][a-zA-Z0-9]*$/g.test(s)) {
                 return true
             }
-            return "Please use alpha numeric characters only for the project name."
+            return "Please use alpha numeric characters only."
         },
         default: "myui5app"
     })).uimoduleName

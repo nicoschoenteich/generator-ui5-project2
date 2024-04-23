@@ -8,7 +8,7 @@ export default async function prompts() {
             if (/^\d*[a-zA-Z][a-zA-Z0-9]*$/g.test(s)) {
                 return true
             }
-            return "Please use alpha numeric characters only for the project name."
+            return "Please use alpha numeric characters only."
         },
         default: "myui5app2"
     })).uimoduleName

@@ -15,3 +15,12 @@
 ## Easy UI5 project generator 2.0 - a new implementation and best practices
 
 In this talk we will dive into the newest implementation of the Easy UI5 project generator (generator-ui5-project) and its benefits. We will also talk about new best practices for project architectures with multiple UI(5) modules and how you can follow them using the new generator-ui5-project.
+
+## Breaking changes
+
+# model
+
+- We renamed the `newmodel` subgenerator to `model`. After all, we also call it `project` generator (and not `newproject` generator) 🙂
+- remove `bindingMode` option
+- remove `countMode` option
+- We now automatically set up a proxy for new models using the ...

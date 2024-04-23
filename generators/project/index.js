@@ -19,8 +19,8 @@ export default class extends Generator {
 			// required so that yeoman detects changes to package.json
 			// and runs install automatically if newDir === true
 			// see https://github.com/yeoman/environment/issues/309
-			// this.env.cwd = this.destinationPath()
-			// this.env.options.nodePackageManager = "npm"
+			this.env.cwd = this.destinationPath()
+			this.env.options.nodePackageManager = "npm"
 		}
 		this.config.set(this.answers) // do this after changing the directory so that .yo-src.json is created in the correct place
 
@@ -54,17 +54,17 @@ export default class extends Generator {
 		if (this.config.get("initRepo")) {
 			this.spawnSync("git", ["init", "--quiet", "-b", "main"], {
 				cwd: this.destinationPath()
-			});
+			})
 			this.spawnSync("git", ["add", "."], {
 				cwd: this.destinationPath()
-			});
+			})
 			this.spawnSync(
 				"git",
 				["commit", "--quiet", "--allow-empty", "-m", "Initialize repository with easy-ui5"],
 				{
 					cwd: this.destinationPath()
 				}
-			);
+			)
 		}
 	}
 
