@@ -1,4 +1,5 @@
 // dependencies for generated applications
+// TO-DO: maybe add as peerDependencies for automated security checks via GitHub, then read programmatically from package.json
 export default {
     "@sap/approuter": "^16",
     "bestzip": "latest",

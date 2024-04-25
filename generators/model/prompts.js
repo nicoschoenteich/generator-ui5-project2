@@ -1,5 +1,3 @@
-import chalk from "chalk"
-
 export default async function prompts() {
 
 	if (this.options.config.uimodules.length === 1) {

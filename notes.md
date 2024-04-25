@@ -23,4 +23,4 @@ In this talk we will dive into the newest implementation of the Easy UI5 project
 - We renamed the `newmodel` subgenerator to `model`. After all, we also call it `project` generator (and not `newproject` generator) 🙂
 - remove `bindingMode` option
 - remove `countMode` option
-- We now automatically set up a proxy for new models using the ...
+- We now automatically set up a proxy for new models using the `fiori-tools-proxy`.

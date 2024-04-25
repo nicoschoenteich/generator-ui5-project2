@@ -3,6 +3,7 @@ import fs from "fs"
 import { generate as writeFPMApp } from "@sap-ux/ui5-application-writer"
 import { generate as writeFreestyleApp, TemplateType } from "@sap-ux/fiori-freestyle-writer"
 import Generator from "yeoman-generator"
+import { lookForParentUI5ProjectAndPrompt } from "../helpers.js"
 import prompts from "./prompts.js"
 
 export default class extends Generator {
@@ -11,14 +12,8 @@ export default class extends Generator {
     async prompting() {
         // standalone call, this.options.config would get passed from ../project generator
         if (!this.options.config) {
-            this.options.config = this.config.getAll()
-            if (Object.keys(this.options.config).length === 0) {
-                this.log(`${chalk.blue("We couldn't find a parent UI5 project to create a uimodule for, but you can create a new one by running")} ${chalk.yellow("yo easy-ui5 project")}${chalk.blue(".")}`)
-                this.cancelCancellableTasks()
-            } else {
-                await prompts.call(this)
-            }
-        }
+        	await lookForParentUI5ProjectAndPrompt.call(this, prompts)
+		}
     }
 
     async writing() {

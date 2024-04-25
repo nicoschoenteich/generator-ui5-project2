@@ -1,5 +1,4 @@
 import dependencies from "../dependencies.js"
-import fs from "fs"
 import Generator from "yeoman-generator"
 
 export default class extends Generator {

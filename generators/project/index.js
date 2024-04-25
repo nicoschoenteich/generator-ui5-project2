@@ -6,7 +6,6 @@ export default class extends Generator {
 	static displayName = "Create a new OpenUI5/SAPUI5 project"
 
 	async prompting() {
-
 		this.answers = {}
 		await prompts.call(this)
 	}
@@ -19,8 +18,8 @@ export default class extends Generator {
 			// required so that yeoman detects changes to package.json
 			// and runs install automatically if newDir === true
 			// see https://github.com/yeoman/environment/issues/309
-			this.env.cwd = this.destinationPath()
-			this.env.options.nodePackageManager = "npm"
+			// this.env.cwd = this.destinationPath()
+			// this.env.options.nodePackageManager = "npm"
 		}
 		this.config.set(this.answers) // do this after changing the directory so that .yo-src.json is created in the correct place
 
