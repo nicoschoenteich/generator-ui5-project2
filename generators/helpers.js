@@ -3,8 +3,16 @@ import chalk from "chalk"
 export async function lookForParentUI5ProjectAndPrompt(prompts) {
 	this.options.config = this.config.getAll()
 	if (Object.keys(this.options.config).length === 0) {
-		this.log(`${chalk.blue("We couldn't find a parent UI5 project with existing uimodules, but you can create one by running")} ${chalk.yellow("yo easy-ui5 project")}${chalk.blue(".")}`)
-		this.cancelCancellableTasks()
+		// look for ui5 projects in the parent dir
+		this.destinationRoot(this.destinationPath("../"))
+		this.options.config = this.config.getAll()
+		if (Object.keys(this.options.config).length === 0) {
+			this.log(`${chalk.blue("We couldn't find a parent UI5 project with existing uimodules, but you can create one by running")} ${chalk.yellow("yo easy-ui5 project")}${chalk.blue(".")}`)
+			this.cancelCancellableTasks()
+
+		} else {
+			await prompts.call(this)
+		}
 	} else {
 		await prompts.call(this)
 	}

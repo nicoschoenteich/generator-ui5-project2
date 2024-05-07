@@ -1,6 +1,5 @@
 node_modules/
 package-lock.json
-com.myorg.myui5project/
 
 .DS_Store
 .marskman.toml

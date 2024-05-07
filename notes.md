@@ -11,6 +11,8 @@
 - correct usage of namespace, project name and uimodule name 
 - no workarounds
 - following best practices of yeoman
+- no `try {} catch {}` quick fixes
+- clearer variable names
 
 ## Easy UI5 project generator 2.0 - a new implementation and best practices
 

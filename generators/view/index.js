@@ -1,8 +1,6 @@
-import chalk from "chalk"
 import fs from "fs"
 import Generator from "yeoman-generator"
 import prompts from "./prompts.js"
-import yaml from "yaml"
 import { lookForParentUI5ProjectAndPrompt } from "../helpers.js"
 
 export default class extends Generator {

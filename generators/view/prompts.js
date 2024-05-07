@@ -6,7 +6,7 @@ export default async function prompts() {
 		this.options.config.uimodule = (await this.prompt({
 			type: "list",
 			name: "uimodule",
-			message: "To which uimodule do you want to add a new model?",
+			message: "To which uimodule do you want to add a new view?",
 			choices: this.options.config.uimodules
 		})).uimodule
 	}
