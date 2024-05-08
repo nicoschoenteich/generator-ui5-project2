@@ -1,3 +1,5 @@
+import fs from "fs"
+
 export default async function prompts() {
 
 	// this subgenerator might be called before uimodules array gets created during end() as part of ../uimodule/index.js
@@ -14,6 +16,7 @@ export default async function prompts() {
 		})).uimodule
 	}
 
+	// TO-DO: not allow object page if list report is not already in place
 	this.options.config.pageType = (await this.prompt({
 		type: "list",
 		name: "pageType",
@@ -25,26 +28,18 @@ export default async function prompts() {
 		default: "custom"
 	})).pageType
 
-	// this.options.config.serviceUrl = (await this.prompt({
-	// 	type: "input",
-	// 	name: "serviceUrl",
-	// 	message: "What is the url of the main service?",
-	// 	validate: (s) => {
-	// 		if (new URL(s) instanceof Error) {
-	// 			return 	// no error message required, yeoman will forward an error to the user
-	// 		}
-	// 		return true
-	// 	}
-	// })).serviceUrl
-
 	// TO-DO: this.options.config.metadata
 
-	this.options.config.navigation = (await this.prompt({
+	const manifestPath = `${this.options.config.uimodule}/webapp/manifest.json`
+	const manifestJSON = JSON.parse(fs.readFileSync(this.destinationPath(manifestPath)))
+	const targets = manifestJSON["sap.ui5"]?.["routing"]?.["targets"]
+	this.options.config.navigationSourcePage = (await this.prompt({
 		type: "list",
-		name: "navigation",
-		message: "From what page do you want to navigate?", 
-		choices: ["fakeTarget"] // Object.keys(targets) 
-	})).navigation
+		name: "navigationSourcePage",
+		message: "From what page do you want to navigate?",
+		choices: Object.keys(targets),
+		when: Object.keys(targets).length > 0
+	})).navigationSourcePage
 
 	this.options.config.mainEntity = (await this.prompt({
 		type: "input",
@@ -58,4 +53,19 @@ export default async function prompts() {
 			return "Please use alpha numeric characters only."
 		}
 	})).mainEntity
+
+	this.options.config.viewName = (await this.prompt({
+		type: "input",
+		name: "viewName",
+		message: "How do you want to name your custom page view?",
+		validate: (s) => {
+			if (/^\d*[a-zA-Z][a-zA-Z0-9]*$/g.test(s)) {
+				return true
+			}
+			return "Please use alpha numeric characters only."
+		},
+		when: this.options.config.pageType === "custom",
+		default: "Main"
+	})).viewName
+
 }
