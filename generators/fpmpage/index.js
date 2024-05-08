@@ -1,4 +1,6 @@
+import chalk from "chalk"
 import fpmWriter from "@sap-ux/fe-fpm-writer"
+import fs from "fs"
 import Generator from "yeoman-generator"
 import prompts from "./prompts.js"
 import { lookForParentUI5ProjectAndPrompt } from "../helpers.js"
@@ -11,9 +13,7 @@ export default class extends Generator {
 	}
 
 	async writing() {
-		this.log(`adding a ${this.options.config.pageType} page to ${this.options.config.uimodule}`)
-
-		// TO-DO: maybe compose with ./model to add new service
+		this.log(chalk.green(`✨ adding a ${this.options.config.pageType} page to ${this.options.config.uimodule}`))
 
 		const target = this.destinationPath(this.options.config.uimodule)
 		switch (this.options.config.pageType) {

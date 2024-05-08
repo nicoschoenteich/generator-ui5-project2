@@ -1,9 +1,10 @@
+import chalk from "chalk"
 import dependencies from "../dependencies.js"
 import Generator from "yeoman-generator"
 import prompts from "./prompts.js"
 
 export default class extends Generator {
-	static displayName = "Create a new OpenUI5/SAPUI5 project"
+	static displayName = "Create a new OpenUI5/SAPUI5 project containing one ore more uimodules"
 
 	async prompting() {
 		this.answers = {}
@@ -12,6 +13,8 @@ export default class extends Generator {
 
 	async writing() {
 		this.answers.projectId = `${this.answers.namespaceUI5}.${this.answers.projectName}` // e.g. com.myorg.myui5project
+		this.log(chalk.green(`✨ creating new project ${this.answers.projectId}`))
+
 		if (this.answers.newDir) {
 			this.destinationRoot(this.destinationPath(this.answers.projectId))
 

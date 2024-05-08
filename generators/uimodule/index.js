@@ -17,6 +17,8 @@ export default class extends Generator {
 	}
 
 	async writing() {
+		this.log(chalk.green(`✨ creating new uimodule ${this.options.config.uimoduleName}`))
+
 		// add uimodule to workspaces in package.json
 		const rootPackageJson = JSON.parse(fs.readFileSync(this.destinationPath("package.json")))
 		rootPackageJson.workspaces.push(this.options.config.uimoduleName)
@@ -48,11 +50,7 @@ export default class extends Generator {
 			if (this.options.config.enableTypescript) {
 				appConfig.appOptions.typescript = true
 			}
-			await writeFPMApp(this.destinationRoot(), appConfig, this.fs)
-
-			this.composeWith("../model", { config: this.options.config })
-			this.composeWith("../enablefpm", { config: this.options.config })
-			this.composeWith("../fpmpage", { config: this.options.config })
+			await writeFPMApp(this.destinationPath(), appConfig, this.fs)
 		} else {
 			appConfig.template = {
 				type: TemplateType.Basic,
@@ -60,11 +58,26 @@ export default class extends Generator {
 					viewName: "MainView"
 				}
 			}
-			await writeFreestyleApp(this.destinationRoot(), appConfig, this.fs)
+			await writeFreestyleApp(this.destinationPath(), appConfig, this.fs)
 		}
 
 		this.composeWith("./platform", { config: this.options.config })
 		this.composeWith("./ui5Libs", { config: this.options.config })
+
+		if (this.options.config.enableFPM) {
+			// sometimes yeoman mixes up the order of subgenerators and
+			// and calls fpmpage before enablefpm
+			// this is a fix to avoid errors in case this happens 
+			// const manifestJSON = JSON.parse(fs.readFileSync(this.destinationPath("webapp/manifest.json")))
+			// if (!manifestJSON["sap.ui5"]["dependencies"]["libs"]["sap.fe.templates"]) {
+			// 	manifestJSON["sap.ui5"]["dependencies"]["libs"]["sap.fe.templates"] = {}
+			// 	fs.writeFileSync(this.destinationPath("webapp/manifest.json"), JSON.stringify(manifestJSON, null, 4))
+			// }
+
+			this.composeWith("../model", { config: this.options.config })
+			this.composeWith("../enablefpm", { config: this.options.config })
+			this.composeWith("../fpmpage", { config: this.options.config })
+		}
 	}
 
 	install() {

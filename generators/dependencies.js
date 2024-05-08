@@ -6,7 +6,7 @@ export default {
     "mbt": "^1",
     "npm-run-all": "^4",
     "rimraf": "latest",
-    "OpenUI5": "1.120.3",
-    "SAPUI5": "1.120.3",
+    "OpenUI5": "1.120.13",
+    "SAPUI5": "1.120.13",
 	"ui5-middleware-approuter": "^3"
 }

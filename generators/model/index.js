@@ -13,7 +13,7 @@ export default class extends Generator {
 	}
 
 	async writing() {
-		this.log(`creating new ${this.options.config.modelType} model for ${this.options.config.uimodule}`)
+		this.log(chalk.green(`✨ creating new ${this.options.config.modelType} model for ${this.options.config.uimodule}`))
 
 		const manifestPath = `${this.options.config.uimodule}/webapp/manifest.json`
 		const manifestJSON = JSON.parse(fs.readFileSync(this.destinationPath(manifestPath)))
@@ -84,7 +84,6 @@ export default class extends Generator {
 			}
 		}
 
-		// use native yeoman methods for this subgenerator as this prompts the user before overwriting
 		this.writeDestinationJSON(this.destinationPath(manifestPath), manifestJSON, null, 4)
 
 		// set up proxy
@@ -124,7 +123,14 @@ export default class extends Generator {
 						}
 					})
 				}
-				this.writeDestination(this.destinationPath(ui5YamlPath), yaml.stringify(ui5Yaml))
+				// prompt user for conflict if standalone call, but must most use this yeoman method
+				// if called as part of initial project generation for fpm
+				// to not interfere with ui5.yaml modifications in enablefpm subgenerator
+				if (this.options.config.enableFPM) {
+					fs.writeFileSync(this.destinationPath(ui5YamlPath), yaml.stringify(ui5Yaml))
+				} else {
+					this.writeDestination(this.destinationPath(ui5YamlPath), yaml.stringify(ui5Yaml))
+				}
 			}
 		}
 	}
