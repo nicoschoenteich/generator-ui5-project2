@@ -1,28 +1,12 @@
-export default async function prompts() {
+import { validateAlphaNumericStartingWithLetterNonEmpty } from "../helpers.js"
 
-	if (this.options.config.uimodules.length === 1) {
-		this.options.config.uimodule = this.options.config.uimodules[0]
-	} else {
-		this.options.config.uimodule = (await this.prompt({
-			type: "list",
-			name: "uimodule",
-			message: "To which uimodule do you want to add a new view?",
-			choices: this.options.config.uimodules
-		})).uimodule
-	}
+export default async function prompts() {
 
 	this.options.config.viewName = (await this.prompt({
 		type: "input",
 		name: "viewName",
 		message: "How do you want to name your new view?",
-		validate: (s) => {
-			if (/^[a-zA-Z0-9_-]*$/g.test(s)) {
-				if (s !== "") {
-					return true
-				}
-			}
-			return "Please use a non-empty value and alpha numeric characters only."
-		}
+		validate: validateAlphaNumericStartingWithLetterNonEmpty
 	})).viewName
 
 	this.options.config.setupController = (await this.prompt({

@@ -8,8 +8,10 @@
         "yeoman-generator"
     ],
     "dependencies": {
+        "@sap-ux/axios-extension": "^1.12.0",
         "@sap-ux/fe-fpm-writer": "^0.24.3",
         "@sap-ux/fiori-freestyle-writer": "^0.21.3",
+        "@sap-ux/odata-service-writer": "^0.17.2",
         "@sap-ux/project-access": "^1.16.2",
         "chalk": "^5.3.0",
         "path": "^0.12.7",
@@ -19,8 +21,8 @@
     },
     "scripts": {
         "dev:project": "yo ui5-project2:project",
-		"debug:project": "node --inspect node_modules/yo/lib/cli.js ui5-project2:project",
-		"debug:model": "node --inspect node_modules/yo/lib/cli.js ui5-project2:model"
+        "debug:project": "node --inspect node_modules/yo/lib/cli.js ui5-project2:project",
+        "debug:model": "node --inspect node_modules/yo/lib/cli.js ui5-project2:model"
     },
     "type": "module",
     "devDependencies": {

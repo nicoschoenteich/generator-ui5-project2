@@ -1,14 +1,14 @@
+import {
+	validateAlphaNumericStartingWithLetterNonEmpty,
+	validateAlphaNumericAndDotsNonEmpty
+} from "../helpers.js"
+
 export default async function prompts() {
     this.answers.namespaceUI5 = (await this.prompt({
         type: "input",
         name: "namespaceUI5",
         message: "Which namespace do you want to use?",
-        validate: (s) => {
-            if (/^[a-zA-Z0-9_\.]*$/g.test(s)) {
-                return true
-            }
-            return "Please use alpha numeric characters and dots only."
-        },
+        validate: validateAlphaNumericAndDotsNonEmpty,
         default: "com.myorg"
     })).namespaceUI5
 
@@ -16,12 +16,7 @@ export default async function prompts() {
         type: "input",
         name: "projectName",
         message: "How do you want to name this project?",
-        validate: (s) => {
-            if (/^\d*[a-zA-Z][a-zA-Z0-9]*$/g.test(s)) {
-                return true
-            }
-            return "Please use alpha numeric characters only."
-        },
+        validate: validateAlphaNumericStartingWithLetterNonEmpty,
         default: "myui5project"
     })).projectName
 
@@ -30,12 +25,7 @@ export default async function prompts() {
         type: "input",
         name: "uimoduleName",
         message: "How do you want to name the first uimodule within your project?",
-        validate: (s) => {
-            if (/^\d*[a-zA-Z][a-zA-Z0-9]*$/g.test(s)) {
-                return true
-            }
-            return "Please use alpha numeric characters only."
-        },
+        validate: validateAlphaNumericStartingWithLetterNonEmpty,
         default: "myui5app"
     })).uimoduleName
 

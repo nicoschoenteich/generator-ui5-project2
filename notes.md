@@ -13,6 +13,9 @@
 - following best practices of yeoman
 - no `try {} catch {}` quick fixes
 - clearer variable names
+- instantly deployable
+- better file structure, e.g. usage of `prompts.js` for every subgenerator
+- better usage of central helper methods to reduce redundencies
 
 ## Easy UI5 project generator 2.0 - a new implementation and best practices
 
@@ -25,4 +28,8 @@ In this talk we will dive into the newest implementation of the Easy UI5 project
 - We renamed the `newmodel` subgenerator to `model`. After all, we also call it `project` generator (and not `newproject` generator) 🙂
 - remove `bindingMode` option
 - remove `countMode` option
-- We now automatically set up a proxy for new models using the `fiori-tools-proxy`.
+- We now (optionally) automatically set up a proxy for new models using the `fiori-tools-proxy`.
+
+# fpmpage
+
+- `enablefpm` subgenerator now part of the more extensive `fpmpage` subgenerator, as it couldn't really be called standalone anyway

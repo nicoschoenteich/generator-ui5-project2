@@ -51,6 +51,7 @@ export default class extends Generator {
 				appConfig.appOptions.typescript = true
 			}
 			await writeFPMApp(this.destinationPath(), appConfig, this.fs)
+			this.composeWith("../fpmpage", { config: this.options.config })
 		} else {
 			appConfig.template = {
 				type: TemplateType.Basic,
@@ -61,23 +62,8 @@ export default class extends Generator {
 			await writeFreestyleApp(this.destinationPath(), appConfig, this.fs)
 		}
 
-		this.composeWith("./platform", { config: this.options.config })
 		this.composeWith("./ui5Libs", { config: this.options.config })
-
-		if (this.options.config.enableFPM) {
-			// sometimes yeoman mixes up the order of subgenerators and
-			// and calls fpmpage before enablefpm
-			// this is a fix to avoid errors in case this happens 
-			// const manifestJSON = JSON.parse(fs.readFileSync(this.destinationPath("webapp/manifest.json")))
-			// if (!manifestJSON["sap.ui5"]["dependencies"]["libs"]["sap.fe.templates"]) {
-			// 	manifestJSON["sap.ui5"]["dependencies"]["libs"]["sap.fe.templates"] = {}
-			// 	fs.writeFileSync(this.destinationPath("webapp/manifest.json"), JSON.stringify(manifestJSON, null, 4))
-			// }
-
-			this.composeWith("../model", { config: this.options.config })
-			this.composeWith("../enablefpm", { config: this.options.config })
-			this.composeWith("../fpmpage", { config: this.options.config })
-		}
+		this.composeWith("./platform", { config: this.options.config })
 	}
 
 	install() {

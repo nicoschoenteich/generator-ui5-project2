@@ -32,9 +32,6 @@ export default class extends Generator {
 		}
 
 		if (this.options.config.modelType === "JSON") {
-
-			this.log(chalk.yellow("Please note: For JSON models, you have to add the data source uri in the manifest.json yourself."))
-
 			manifestJSON["sap.app"]["dataSources"][dataSource] = {
 				uri: "<REPLACE-WITH-URI>",
 				type: "JSON",
