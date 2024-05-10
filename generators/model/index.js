@@ -120,14 +120,7 @@ export default class extends Generator {
 						}
 					})
 				}
-				// prompt user for conflict if standalone call, but must most use this yeoman method
-				// if called as part of initial project generation for fpm
-				// to not interfere with ui5.yaml modifications in enablefpm subgenerator
-				if (this.options.config.enableFPM) {
-					fs.writeFileSync(this.destinationPath(ui5YamlPath), yaml.stringify(ui5Yaml))
-				} else {
-					this.writeDestination(this.destinationPath(ui5YamlPath), yaml.stringify(ui5Yaml))
-				}
+				this.writeDestination(this.destinationPath(ui5YamlPath), yaml.stringify(ui5Yaml))
 			}
 		}
 	}
