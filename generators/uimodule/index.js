@@ -1,4 +1,5 @@
 import chalk from "chalk"
+import dependencies from "../dependencies.js"
 import fs from "fs"
 import { generate as writeFPMApp } from "@sap-ux/ui5-application-writer"
 import { generate as writeFreestyleApp, TemplateType } from "@sap-ux/fiori-freestyle-writer"
@@ -60,6 +61,10 @@ export default class extends Generator {
 				}
 			}
 			await writeFreestyleApp(this.destinationPath(), appConfig, this.fs)
+
+			// add eslint only to freestyle apps, as fpm apps bring their own config
+			// for some reason the eslint subgenerator can't resolve the template path correctyl by itself, so we are passing it here
+			this.composeWith("./eslint", { templatePath: this.templatePath(".eslintrc") })
 		}
 
 		this.composeWith("./ui5Libs", { config: this.options.config })

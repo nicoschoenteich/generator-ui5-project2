@@ -26,24 +26,13 @@ export default class extends Generator {
 		}
 		this.config.set(this.answers) // do this after changing the directory so that .yo-rc.json is created in the correct place
 
-		// add eslint only to freestyle apps, as fpm apps bring their own config
-		if (!this.answers.enableFPM) {
-			this.fs.copyTpl(
-				this.templatePath("eslint.config.mjs"),
-				this.destinationPath("eslint.config.mjs"),
-				{}
-			)
-		}
-
 		this.fs.copyTpl(
 			this.templatePath("package.json"),
 			this.destinationPath("package.json"),
 			{
 				title: this.config.get("projectId"),
-				mbtVersion: dependencies["mbt"],
-				eslintVersion: this.answers.enableFPM ? undefined : dependencies["eslint"]
+				mbtVersion: dependencies["mbt"]
 			}
-
 		)
 
 		this.fs.copyTpl(
