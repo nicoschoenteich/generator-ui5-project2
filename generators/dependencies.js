@@ -3,6 +3,7 @@
 export default {
     "@sap/approuter": "^16",
     "bestzip": "latest",
+	"eslint": "^9",
     "mbt": "^1",
     "npm-run-all": "^4",
     "rimraf": "latest",

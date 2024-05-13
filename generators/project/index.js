@@ -21,18 +21,29 @@ export default class extends Generator {
 			// required so that yeoman detects changes to package.json
 			// and runs install automatically if newDir === true
 			// see https://github.com/yeoman/environment/issues/309
-			// this.env.cwd = this.destinationPath()
-			// this.env.options.nodePackageManager = "npm"
+			this.env.cwd = this.destinationPath()
+			this.env.options.nodePackageManager = "npm"
 		}
-		this.config.set(this.answers) // do this after changing the directory so that .yo-src.json is created in the correct place
+		this.config.set(this.answers) // do this after changing the directory so that .yo-rc.json is created in the correct place
+
+		// add eslint only to freestyle apps, as fpm apps bring their own config
+		if (!this.answers.enableFPM) {
+			this.fs.copyTpl(
+				this.templatePath("eslint.config.mjs"),
+				this.destinationPath("eslint.config.mjs"),
+				{}
+			)
+		}
 
 		this.fs.copyTpl(
 			this.templatePath("package.json"),
 			this.destinationPath("package.json"),
 			{
 				title: this.config.get("projectId"),
-				mbtVersion: dependencies["mbt"]
+				mbtVersion: dependencies["mbt"],
+				eslintVersion: this.answers.enableFPM ? undefined : dependencies["eslint"]
 			}
+
 		)
 
 		this.fs.copyTpl(
