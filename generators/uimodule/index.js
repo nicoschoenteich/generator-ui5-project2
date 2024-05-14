@@ -1,14 +1,15 @@
 import chalk from "chalk"
-import dependencies from "../dependencies.js"
 import fs from "fs"
 import { generate as writeFPMApp } from "@sap-ux/ui5-application-writer"
 import { generate as writeFreestyleApp, TemplateType } from "@sap-ux/fiori-freestyle-writer"
 import Generator from "yeoman-generator"
 import { lookForParentUI5ProjectAndPrompt } from "../helpers.js"
 import prompts from "./prompts.js"
+import wdi5 from "https://raw.githubusercontent.com/ui5-community/generator-ui5-wdi5/main/generators/index.js"
 
 export default class extends Generator {
 	static displayName = "Create a new uimodule within an existing OpenUI5/SAPUI5 project"
+	static nestedGenerators = ["wdi5"]
 
 	async prompting() {
 		// standalone call, this.options.config would get passed from ../project generator
@@ -69,6 +70,7 @@ export default class extends Generator {
 
 		this.composeWith("./ui5Libs", { config: this.options.config })
 		this.composeWith("./platform", { config: this.options.config })
+		this.composeWith(wdi5, { embedded: true })
 	}
 
 	install() {

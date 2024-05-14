@@ -1,3 +1,5 @@
+# TO-DO
+
 - ensure that the plugin works properly even if parameters are missing an may question them again
 - proper version check should be introduced
 
@@ -23,13 +25,13 @@ In this talk we will dive into the newest implementation of the Easy UI5 project
 
 ## Breaking changes
 
-# model
+### model
 
 - We renamed the `newmodel` subgenerator to `model`. After all, we also call it `project` generator (and not `newproject` generator) 🙂
 - remove `bindingMode` option
 - remove `countMode` option
 - We now (optionally) automatically set up a proxy for new models using the `fiori-tools-proxy`.
 
-# fpmpage
+### fpmpage
 
 - `enablefpm` subgenerator now part of the more extensive `fpmpage` subgenerator, as it couldn't really be called standalone anyway
