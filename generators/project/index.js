@@ -5,8 +5,12 @@ import prompts from "./prompts.js"
 
 export default class extends Generator {
 	static displayName = "Create a new OpenUI5/SAPUI5 project containing one ore more uimodules"
+	static nestedGenerators = ["wdi5"]
 
 	async prompting() {
+		this.options.configPath = "./myui5app/webapp/test/e2e/"
+		this.options.specs = "./myui5app/webapp/test/e2e/"
+
 		this.answers = {}
 		await prompts.call(this)
 	}
