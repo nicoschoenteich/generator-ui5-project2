@@ -1,5 +1,11 @@
 # TO-DO
 
+- opa
+- qunit
+- minimalistic version
+- add start script to root package.json per uimodule
+- log call to action at the end: "cd com.myorg.myproject && npm start:myui5app"
+
 - ensure that the plugin works properly even if parameters are missing an may question them again
 - proper version check should be introduced
 
@@ -18,6 +24,8 @@
 - instantly deployable
 - better file structure, e.g. usage of `prompts.js` for every subgenerator
 - better usage of central helper methods to reduce redundencies
+- remove confusion when calling the project generator and it asked for app vs. webapp creation
+- less yeoman conflicts upon project creation for a smoother experience
 
 ## Easy UI5 project generator 2.0 - a new implementation and best practices
 
