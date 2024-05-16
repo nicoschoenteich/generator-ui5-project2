@@ -1,6 +1,6 @@
 import chalk from "chalk"
 
-export async function lookForParentUI5ProjectAndPrompt(prompts) {
+export async function lookForParentUI5ProjectAndPrompt(prompts, uimodulePrompt = true) {
 	let configExists
 	this.options.config = this.config.getAll()
 	if (Object.keys(this.options.config).length === 0) {
@@ -23,8 +23,8 @@ export async function lookForParentUI5ProjectAndPrompt(prompts) {
 			this.options.config.uimodule = this.options.config.uimoduleName
 		} else if (this.options.config.uimodules?.length === 1) {
 			this.options.config.uimodule = this.options.config.uimodules[0]
-			this.log(chalk.green(`✨ found existing uimodule ${this.options.config.uimodule}`))
-		} else {
+			if (uimodulePrompt) this.log(chalk.green(`✨ found existing uimodule ${this.options.config.uimodule}`))
+		} else if (uimodulePrompt) {
 			this.options.config.uimodule = (await this.prompt({
 				type: "list",
 				name: "uimodule",

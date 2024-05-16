@@ -6,11 +6,6 @@ import prompts from "./prompts.js"
 export default class extends Generator {
 	static displayName = "Create a new OpenUI5/SAPUI5 project containing one ore more uimodules"
 	static nestedGenerators = ["wdi5"] // TO-DO: doesn't work like that. How can we pass the uimodule path to the wdi5 generator, so it won't add wdi5 to the npm workspaces root? Make wdi5 aware of npm workspaces or handle it via easy-ui5 and make it aware of this context of subgenerator? I prefer the first option [nicoschoenteich]?
-	constructor(args, opts) {
-	    super(args, opts)
-
-		this.option.configPath = "something"
-	}
 
 	async prompting() {
 		this.answers = {}
@@ -27,8 +22,8 @@ export default class extends Generator {
 			// required so that yeoman detects changes to package.json
 			// and runs install automatically if newDir === true
 			// see https://github.com/yeoman/environment/issues/309
-			this.env.cwd = this.destinationPath()
-			this.env.options.nodePackageManager = "npm"
+			// this.env.cwd = this.destinationPath()
+			// this.env.options.nodePackageManager = "npm"
 		}
 		this.config.set(this.answers) // do this after changing the directory so that .yo-rc.json is created in the correct place
 

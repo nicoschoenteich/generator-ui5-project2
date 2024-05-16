@@ -11,18 +11,19 @@ export default class extends Generator {
 	static nestedGenerators = ["wdi5"] // ignored by easy-ui5 if uimodule is composed with project
 
 	async prompting() {
-		// standalone call, this.options.config would get passed from ../project generator
+		// standalone call, this.options.config gets passed from ../project generator
 		if (!this.options.config) {
-			await lookForParentUI5ProjectAndPrompt.call(this, prompts)
+			await lookForParentUI5ProjectAndPrompt.call(this, prompts, false)
 		}
 	}
 
 	async writing() {
 		this.log(chalk.green(`✨ creating new uimodule ${this.options.config.uimoduleName}`))
 
-		// add uimodule to workspaces in package.json
+		// add uimodule to root package.json
 		const rootPackageJson = JSON.parse(fs.readFileSync(this.destinationPath("package.json")))
 		rootPackageJson.workspaces.push(this.options.config.uimoduleName)
+		rootPackageJson.scripts[`start:${this.options.config.uimoduleName}`] = `npm start --workspace ${this.options.config.uimoduleName}`
 		fs.writeFileSync(this.destinationPath("package.json"), JSON.stringify(rootPackageJson, null, 4))
 
 		this.destinationRoot(this.destinationPath(this.options.config.uimoduleName))
@@ -93,6 +94,11 @@ export default class extends Generator {
 		}
 		this.config.delete("uimoduleName")
 		this.config.delete("tileName")
+
+		const inProjectDirOrDeeper = process.cwd().includes(this.options.config.projectId)
+		const newPath = inProjectDirOrDeeper ? "" : `cd ${this.options.config.projectId} && `
+		this.log(`${chalk.green(`You can start your new uimodule by running`)} ${chalk.blue(`${newPath}npm run start:${this.options.config.uimoduleName}`)}${chalk.green(`${inProjectDirOrDeeper ? " from the project root." : "."}`)}`)
+
 	}
 
 }

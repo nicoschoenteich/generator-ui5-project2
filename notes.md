@@ -3,8 +3,6 @@
 - opa
 - qunit
 - minimalistic version
-- add start script to root package.json per uimodule
-- log call to action at the end: "cd com.myorg.myproject && npm start:myui5app"
 
 - ensure that the plugin works properly even if parameters are missing an may question them again
 - proper version check should be introduced
